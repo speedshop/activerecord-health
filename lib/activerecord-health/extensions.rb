@@ -11,4 +11,3 @@ end
 if defined?(::ActiveRecord::Base)
   ::ActiveRecord::Base.extend(::ActiveRecord::Health::ModelExtension)
 end
-

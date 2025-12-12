@@ -177,4 +177,13 @@ class MockConnection
     raise "Connection failed" if @should_fail
     @active_session_count
   end
+
+  def execute(query)
+    raise "Connection failed" if @should_fail
+  end
+
+  def transaction
+    raise "Connection failed" if @should_fail
+    yield
+  end
 end

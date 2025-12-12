@@ -75,7 +75,30 @@ module ActiveRecord
       end
 
       def execute_with_timeout(connection, query)
-        connection.select_value(query)
+        adapter_name = connection.adapter_name.downcase
+
+        case adapter_name
+        when /postgresql/
+          execute_with_postgresql_timeout(connection, query)
+        when /mysql/
+          execute_with_mysql_timeout(connection, query)
+        else
+          connection.select_value(query)
+        end
+      end
+
+      def execute_with_postgresql_timeout(connection, query)
+        connection.transaction do
+          connection.execute("SET LOCAL statement_timeout = '#{QUERY_TIMEOUT}s'")
+          connection.select_value(query)
+        end
+      end
+
+      def execute_with_mysql_timeout(connection, query)
+        connection.transaction do
+          connection.execute("SET max_execution_time = #{QUERY_TIMEOUT * 1000}")
+          connection.select_value(query)
+        end
       end
 
       def adapter_for(connection)

@@ -79,4 +79,5 @@ jobs:
           MYSQL_USER: root
           MYSQL_PASSWORD: root
           MYSQL_DB: activerecord_health_test
+          FAIL_ON_SKIP: "true"
         run: bundle exec rake test_integration

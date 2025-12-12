@@ -212,4 +212,4 @@ This gem is simple by design. Keep these limits in mind:
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE.txt) for details.

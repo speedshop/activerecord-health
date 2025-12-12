@@ -68,7 +68,8 @@ class MySQLIntegrationTest < ActiveRecord::Health::TestCase
   def mysql_available?
     Mysql2::Client.new(mysql_config).close
     true
-  rescue Mysql2::Error
+  rescue Mysql2::Error => e
+    warn "MySQL connection failed: #{e.message}"
     false
   end
 

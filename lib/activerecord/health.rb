@@ -4,6 +4,7 @@ require_relative "health/version"
 require_relative "health/configuration"
 require_relative "health/adapters/postgresql_adapter"
 require_relative "health/adapters/mysql_adapter"
+require_relative "health/railtie" if defined?(Rails::Railtie)
 
 module ActiveRecord
   module Health

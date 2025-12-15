@@ -25,7 +25,7 @@ class RailtieTest < ActiveRecord::Health::TestCase
       initializer "test.configure_activerecord_health", before: :load_config_initializers do
         ActiveRecord::Health.configure do |config|
           config.vcpu_count = 4
-          config.cache = MockCache.new
+          config.cache = ActiveSupport::Cache::MemoryStore.new
         end
       end
     end

@@ -5,7 +5,7 @@ require "activerecord/health/extensions"
 
 class ConnectionExtensionTest < ActiveRecord::Health::TestCase
   def test_healthy_returns_true_when_below_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.5)
 
     ActiveRecord::Health.configure do |config|
@@ -19,7 +19,7 @@ class ConnectionExtensionTest < ActiveRecord::Health::TestCase
   end
 
   def test_healthy_returns_false_when_above_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.9)
 
     ActiveRecord::Health.configure do |config|
@@ -33,7 +33,7 @@ class ConnectionExtensionTest < ActiveRecord::Health::TestCase
   end
 
   def test_load_pct_returns_cached_value
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.625)
 
     ActiveRecord::Health.configure do |config|
@@ -48,7 +48,7 @@ end
 
 class ModelExtensionTest < ActiveRecord::Health::TestCase
   def test_database_healthy_returns_true_when_below_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.5)
 
     ActiveRecord::Health.configure do |config|
@@ -61,7 +61,7 @@ class ModelExtensionTest < ActiveRecord::Health::TestCase
   end
 
   def test_database_healthy_returns_false_when_above_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.9)
 
     ActiveRecord::Health.configure do |config|

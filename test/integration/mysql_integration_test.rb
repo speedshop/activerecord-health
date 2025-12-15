@@ -17,7 +17,7 @@ class MySQLIntegrationTest < ActiveRecord::Health::TestCase
       database: ENV.fetch("MYSQL_DB", "activerecord_health_test")
     )
 
-    @cache = MockCache.new
+    @cache = ActiveSupport::Cache::MemoryStore.new
     @baseline_sessions = count_active_sessions
     ActiveRecord::Health.configure do |config|
       config.vcpu_count = @baseline_sessions + 4

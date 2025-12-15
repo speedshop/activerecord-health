@@ -4,7 +4,7 @@ require "test_helper"
 
 class HealthTest < ActiveRecord::Health::TestCase
   def test_ok_returns_true_when_load_below_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.5)
 
     ActiveRecord::Health.configure do |config|
@@ -18,7 +18,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_ok_returns_false_when_load_above_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.9)
 
     ActiveRecord::Health.configure do |config|
@@ -32,7 +32,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_ok_returns_true_when_load_equals_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.75)
 
     ActiveRecord::Health.configure do |config|
@@ -56,7 +56,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_load_pct_returns_cached_value
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.625)
 
     ActiveRecord::Health.configure do |config|
@@ -79,7 +79,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_load_pct_queries_database_when_not_cached
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
 
     ActiveRecord::Health.configure do |config|
       config.vcpu_count = 16
@@ -94,7 +94,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_load_pct_returns_1_0_when_database_query_fails
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
 
     ActiveRecord::Health.configure do |config|
       config.vcpu_count = 16
@@ -108,7 +108,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_ok_returns_false_when_database_query_fails
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
 
     ActiveRecord::Health.configure do |config|
       config.vcpu_count = 16
@@ -123,7 +123,7 @@ class HealthTest < ActiveRecord::Health::TestCase
   end
 
   def test_uses_per_model_configuration
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:animals", 0.6)
 
     ActiveRecord::Health.configure do |config|

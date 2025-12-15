@@ -4,7 +4,7 @@ require "test_helper"
 
 class SheddableTest < ActiveRecord::Health::TestCase
   def test_sheddable_executes_block_and_returns_true_when_healthy
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.5)
 
     ActiveRecord::Health.configure do |config|
@@ -22,7 +22,7 @@ class SheddableTest < ActiveRecord::Health::TestCase
   end
 
   def test_sheddable_returns_false_and_skips_block_when_overloaded
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.9)
 
     ActiveRecord::Health.configure do |config|
@@ -40,7 +40,7 @@ class SheddableTest < ActiveRecord::Health::TestCase
   end
 
   def test_sheddable_pct_executes_block_and_returns_true_when_below_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.4)
 
     ActiveRecord::Health.configure do |config|
@@ -57,7 +57,7 @@ class SheddableTest < ActiveRecord::Health::TestCase
   end
 
   def test_sheddable_pct_returns_false_and_skips_block_when_above_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.6)
 
     ActiveRecord::Health.configure do |config|
@@ -74,7 +74,7 @@ class SheddableTest < ActiveRecord::Health::TestCase
   end
 
   def test_sheddable_pct_executes_block_and_returns_true_when_at_threshold
-    cache = MockCache.new
+    cache = ActiveSupport::Cache::MemoryStore.new
     cache.write("activerecord_health:load_pct:primary", 0.5)
 
     ActiveRecord::Health.configure do |config|

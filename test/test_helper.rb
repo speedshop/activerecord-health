@@ -41,28 +41,6 @@ class ActiveRecord::Health::TestCase < Minitest::Test
   end
 end
 
-class MockCache
-  def initialize
-    @store = {}
-  end
-
-  def read(key)
-    @store[key]
-  end
-
-  def write(key, value, options = {})
-    @store[key] = value
-  end
-
-  def delete(key)
-    @store.delete(key)
-  end
-
-  def clear
-    @store.clear
-  end
-end
-
 class FailingCache
   def read(key)
     raise "Cache connection failed"

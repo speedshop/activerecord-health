@@ -133,11 +133,13 @@ Retry jobs when the database is unhealthy:
 ```ruby
 # config/initializers/sidekiq.rb
 class DatabaseHealthMiddleware
+  class DatabaseUnhealthy < StandardError; end
+
   THROTTLED_QUEUES = %w[reports analytics bulk_import].freeze
 
   def call(_worker, job, _queue)
     if THROTTLED_QUEUES.include?(job["queue"]) && !ActiveRecord::Health.ok?
-      raise ActiveRecord::Health::Unhealthy
+      raise DatabaseUnhealthy, "Database is under pressure"
     end
     yield
   end

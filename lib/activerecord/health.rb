@@ -93,7 +93,7 @@ module ActiveRecord
       def adapter_class_for(connection)
         case connection.adapter_name.downcase
         when /postgresql/ then Adapters::PostgreSQLAdapter
-        when /mysql/ then Adapters::MySQLAdapter
+        when /mysql/, /trilogy/ then Adapters::MySQLAdapter
         else raise "Unsupported database adapter: #{connection.adapter_name}"
         end
       end

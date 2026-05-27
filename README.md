@@ -183,6 +183,7 @@ end
 | Database | Supported |
 |----------|-----------|
 | PostgreSQL 10+ | Yes |
+| PostGIS (via activerecord-postgis-adapter) | Yes |
 | MySQL 5.1+ | Yes |
 | MySQL 8.0.22+ | Yes (uses performance_schema) |
 | MariaDB | Yes |

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Bug Fixes
+
+- Support the PostGIS adapter from activerecord-postgis-adapter.
+
 ## 0.2.1
 
 ### Bug Fixes

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord-health (0.2.1)
+    activerecord-health (0.3.0)
       activerecord (>= 7.0)
       activesupport (>= 7.0)
 

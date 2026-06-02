@@ -93,6 +93,20 @@ class HealthTest < ActiveRecord::Health::TestCase
     assert_equal 0.5, cache.read("activerecord_health:load_pct:primary")
   end
 
+  def test_load_pct_supports_postgis_adapter
+    cache = ActiveSupport::Cache::MemoryStore.new
+
+    ActiveRecord::Health.configure do |config|
+      config.vcpu_count = 16
+      config.cache = cache
+    end
+
+    connection = MockConnection.new(active_session_count: 4, adapter_name: "PostGIS")
+    mock_model = MockModel.new("primary", connection)
+
+    assert_equal 0.25, ActiveRecord::Health.load_pct(model: mock_model)
+  end
+
   def test_load_pct_returns_1_0_when_database_query_fails
     cache = ActiveSupport::Cache::MemoryStore.new
 
@@ -164,14 +178,13 @@ class MockModel
 end
 
 class MockConnection
-  def initialize(active_session_count: 0, should_fail: false)
+  def initialize(active_session_count: 0, should_fail: false, adapter_name: "PostgreSQL")
     @active_session_count = active_session_count
     @should_fail = should_fail
+    @adapter_name = adapter_name
   end
 
-  def adapter_name
-    "PostgreSQL"
-  end
+  attr_reader :adapter_name
 
   def select_value(query)
     raise "Connection failed" if @should_fail

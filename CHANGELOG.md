@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.3.0
+
 ### Bug Fixes
 
 - Support the PostGIS adapter from activerecord-postgis-adapter.
